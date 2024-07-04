@@ -1,40 +1,42 @@
-
 import cv2 as cv
-import numpy as np
-import os
-from time import time
-from windowcapture import WindowCapture
-
-#Allows access to OS files
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
-
-#Calls the Class that captures our screen from windowcapture.py
-wincap = WindowCapture('yuzu 1734')
+import numpy
+import time
+import mss
 
 
-#Allows us to see FPS
-loop_time = time()
+
+with mss.mss() as sct:
+
+    # Part of the screen to capture
+    monitor = {"top": 0, "left": 0, "width": 1920, "height": 1080}
 
 
-#This loop captures 
-while(True):
+    while True:
+
+        #Captures the time at the start of the loop
+        last_time = time.time()
+
+        # Get raw pixels from the screen, save it to a Numpy array
+        img = numpy.array(sct.grab(monitor))
+
+        # Display the picture
+        cv.imshow("OpenCV/Numpy normal", img)
+
+        #Prints FPS
+        print(f"fps: {1 / (time.time() - last_time)}")
 
 
-    #Screen Capture
-    screenshot = wincap.get_screenshot()
-    cv.imshow('Computer Vision', screenshot)
-
-    #Shows us FPS
-    print('FPS {}'.format(1/(time() - loop_time)))
-    loop_time = time()
 
 
-    #CODE ONLY QUITS IF 'q' IS PRESSED
-    if cv.waitKey(1) == ord('q'):
-        cv.destroyAllWindows()
-        break
 
-    
+        '''CODE ADD HERE'''
 
-#End
-print('Done.')
+
+
+
+
+
+        # Press "q" to quit
+        if cv.waitKey(25) & 0xFF == ord("q"):
+            cv.destroyAllWindows()
+            break
