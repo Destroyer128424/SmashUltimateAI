@@ -13,7 +13,7 @@ def findClickPositions(needle_img_path, haystack_img, threshold=0.5, debug_mode=
     needle_w = needle_img.shape[1]
     needle_h = needle_img.shape[0]
 
-    method = cv.TM_SQDIFF_NORMED
+    method = cv.TM_CCOEFF_NORMED
     result = cv.matchTemplate(haystack_img, needle_img, method)
 
     #Get the positions from the match results that exceed ourn threshold
