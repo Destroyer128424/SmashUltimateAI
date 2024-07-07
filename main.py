@@ -7,7 +7,7 @@ import dxcam
 #initializes video
 camera = dxcam.create()
 
-#Creates an istances of the Vision class from vision.py
+#Creates an instances of the Vision class from vision.py
 vision = Vision()
 
 camera.start(target_fps=60)  # threaded

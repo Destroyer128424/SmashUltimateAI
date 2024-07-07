@@ -2,8 +2,6 @@ import cv2 as cv
 import gradio as gr
 import numpy as np
 import matplotlib.pyplot as plt
-import dxcam
-
 
 class Vision:
 
