@@ -1,12 +1,15 @@
 import cv2 as cv
-import numpy
+import numpy as np
 import time
 from vision import Vision
 import dxcam
 
-
+#initializes video
 camera = dxcam.create()
-vision = Vision('Mario.jpg')
+
+#Creates an istances of the Vision class from vision.py
+vision = Vision()
+
 camera.start(target_fps=60)  # threaded
 
 while True:
@@ -15,16 +18,13 @@ while True:
     last_time = time.time()
 
     # Get raw pixels from the screen, save it to a Numpy array
-    img = numpy.array( camera.get_latest_frame())
-    img = cv.cvtColor(img, cv.COLOR_BGRA2BGR)
-    img = img[...,:3]
+    img = np.array( camera.get_latest_frame())
 
     # Display the picture
-    #cv.imshow("OpenCV/Numpy normal", img)
-    points = vision.find(img, 0.7, 'rectangles')
+    #Calls the class from vision.py
+    vision.find(img)
 
-    #Prints FPS
-    print(f"fps: {1 / (time.time() - last_time)}")
+
 
 
     
@@ -32,8 +32,13 @@ while True:
 
 
 
+
+
+    #Prints FPS
+    print(f"fps: {1 / (time.time() - last_time)}")
+
     # Press "q" to quit
-    if cv.waitKey(25) & 0xFF == ord("q"):
+    if cv.waitKey(30) & 0xFF == ord("q"):
         cv.destroyAllWindows()
         camera.stop()
         break
