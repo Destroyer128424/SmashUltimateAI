@@ -15,15 +15,12 @@ class Vision:
         #OpenCV prefers BGR
         img = cv.cvtColor(img, cv.COLOR_BGRA2BGR)
         #Removes alpha channels
-        #img = img[...,:3] 
-
+        img = img[...,:3] 
 
 
 
 
         """CODE HERE"""
-
-
 
 
 

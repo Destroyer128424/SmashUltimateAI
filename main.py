@@ -14,11 +14,9 @@ camera.start(target_fps=60)  # threaded
 
 while True:
 
-    #Captures the time at the start of the loop
-    last_time = time.time()
-
     # Get raw pixels from the screen, save it to a Numpy array
-    img = np.array( camera.get_latest_frame())
+    #This is the screenshot data. Updates everytime the while loop runs
+    img = np.array(camera.get_latest_frame(), dtype="uint8")
 
     # Display the picture
     #Calls the class from vision.py
@@ -34,11 +32,10 @@ while True:
 
 
 
-    #Prints FPS
-    print(f"fps: {1 / (time.time() - last_time)}")
+
 
     # Press "q" to quit
-    if cv.waitKey(30) & 0xFF == ord("q"):
+    if cv.waitKey(15) & 0xFF == ord("q"):
         cv.destroyAllWindows()
         camera.stop()
         break
