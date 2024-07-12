@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
-import time
 from vision import Vision
+from controls import *
 import dxcam
 
 #initializes video
