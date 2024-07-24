@@ -1,28 +1,45 @@
 import cv2 as cv
-import numpy as np
-from vision import Vision
 from controls import *
+import numpy as np
 import dxcam
+from windows_capture import WindowsCapture, Frame, InternalCaptureControl
 
-#initializes video
+
+
+
+
+#Load Trained Model
+MarioCascade = cv.CascadeClassifier("Mario/Cascade/cascade.xml")
+
+
 camera = dxcam.create()
 
-#Creates an instances of the Vision class from vision.py
-vision = Vision()
+camera.start(target_fps=60)
 
-camera.start(target_fps=60)  # threaded
 
 while True:
 
-    # Get raw pixels from the screen, save it to a Numpy array
-    #This is the screenshot data. Updates everytime the while loop runs
-    img = np.array(camera.get_latest_frame(), dtype="uint8")
 
-    # Display the picture
-    #Calls the class from vision.py
-    vision.find(img)
+    #Reads the frames of the video.
+    FrameData = np.array(camera.get_latest_frame())
 
 
+    #Simpifies the Algorithim. Turns video to grayscale
+    #GrayFrameData = cv.cvtColor(FrameData, cv.COLOR_BGR2GRAY)
+
+
+
+    rect = MarioCascade.detectMultiScale(
+        FrameData,
+        scaleFactor=1.1,
+        minNeighbors=1000,
+        minSize=(30, 30),
+        flags=cv.CASCADE_SCALE_IMAGE
+    )
+    
+
+    for (x, y, w, h) in rect:
+        cv.rectangle(FrameData, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
 
     
@@ -33,9 +50,14 @@ while True:
 
 
 
+    FrameData = cv.cvtColor(FrameData, cv.COLOR_BGR2RGB)
+
+    cv.imshow("Frame_final", FrameData)
+
+
 
     # Press "q" to quit
-    if cv.waitKey(15) & 0xFF == ord("q"):
+    if cv.waitKey(1) & 0xFF == ord("q"):
         cv.destroyAllWindows()
         camera.stop()
         break
