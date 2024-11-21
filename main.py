@@ -5,7 +5,7 @@ import dxcam
 from windows_capture import WindowsCapture, Frame, InternalCaptureControl
 
 
-
+#NEW
 
 
 #Load Trained Model
